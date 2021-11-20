@@ -2,6 +2,7 @@ package pl.edu.wszib.order.application.order;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.edu.wszib.order.application.product.Product;
 
 import java.util.Optional;
 
@@ -43,8 +44,10 @@ public class OrderFacadeTest {
         //given:
         final OrderId orderId = orderFacade.create().getId();
 
+        final OrderItem item = OrderItem.create();
+
         //when:
-        orderFacade.addItem(orderId, OrderItem.create());
+        orderFacade.addItem(orderId, item);
 
         //then:
         Optional<Order> foundOrder = orderFacade.findById(orderId);
