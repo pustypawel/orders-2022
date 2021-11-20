@@ -11,7 +11,6 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class OrderFacadeTest {
-    //T2: można dodać pozycję do zamówienia
     //T3: można usunąć pozycję
     //T4: można zwiększyć ilość dla pozycji
     //T5: można zmniejszyć ilość dla pozycji
@@ -57,9 +56,16 @@ public class OrderFacadeTest {
         //then:
         Optional<OrderApi> foundOrder = orderFacade.findById(orderId);
         assertTrue(foundOrder.isPresent());
+        //TODO Refactor
         boolean orderContainsProductWeWantedToAdd = foundOrder.get().getItems().stream().anyMatch(orderItemApi -> orderItemApi.getProductId().equals(itemToAdd.getProductId()));
         assertTrue(orderContainsProductWeWantedToAdd);
 
         System.out.println("FoundOrder: " + foundOrder);
+    }
+
+    @Test
+    public void should_be_able_to_remove_item_from_order() {
+        //TODO Impl
+
     }
 }
