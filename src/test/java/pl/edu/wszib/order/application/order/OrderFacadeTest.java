@@ -2,7 +2,9 @@ package pl.edu.wszib.order.application.order;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import pl.edu.wszib.order.application.product.Product;
+import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderItemAddApi;
+import pl.edu.wszib.order.application.product.*;
 
 import java.util.Optional;
 
@@ -23,7 +25,10 @@ public class OrderFacadeTest {
     @BeforeEach
     public void setup() {
         final OrderRepository orderRepository = new InMemoryOrderRepository();
-        orderFacade = new OrderFacade(orderRepository);
+        //TODO Refactor
+        final ProductFacade productFacade = new ProductFacade(new InMemoryProductRepository());
+        new ProductRepositoryInitialization().init(productFacade);
+        orderFacade = new OrderFacade(orderRepository, productFacade);
     }
 
     @Test
@@ -31,10 +36,10 @@ public class OrderFacadeTest {
         //given:
 
         //when:
-        final Order createdOrder = orderFacade.create();
+        final OrderApi createdOrder = orderFacade.create();
 
         //then:
-        final Optional<Order> foundOrder = orderFacade.findById(createdOrder.getId());
+        final Optional<OrderApi> foundOrder = orderFacade.findById(createdOrder.getId());
         assertTrue(foundOrder.isPresent());
         System.out.println("Order has been created! order = " + createdOrder);
     }
@@ -42,15 +47,19 @@ public class OrderFacadeTest {
     @Test
     public void should_be_able_to_add_item_to_order() {
         //given:
-        final OrderId orderId = orderFacade.create().getId();
+        final String orderId = orderFacade.create().getId();
 
-        final OrderItem item = OrderItem.create();
+        final OrderItemAddApi itemToAdd = new OrderItemAddApi(ProductSamples.CHOCOLATE.getId().asBasicType(), 1);
 
         //when:
-        orderFacade.addItem(orderId, item);
+        orderFacade.addItem(orderId, itemToAdd);
 
         //then:
-        Optional<Order> foundOrder = orderFacade.findById(orderId);
+        Optional<OrderApi> foundOrder = orderFacade.findById(orderId);
+        assertTrue(foundOrder.isPresent());
+        boolean orderContainsProductWeWantedToAdd = foundOrder.get().getItems().stream().anyMatch(orderItemApi -> orderItemApi.getProductId().equals(itemToAdd.getProductId()));
+        assertTrue(orderContainsProductWeWantedToAdd);
+
         System.out.println("FoundOrder: " + foundOrder);
     }
 }

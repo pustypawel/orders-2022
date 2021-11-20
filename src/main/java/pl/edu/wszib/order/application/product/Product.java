@@ -1,12 +1,10 @@
 package pl.edu.wszib.order.application.product;
 
-import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.Value;
 
 import java.math.BigDecimal;
 
-@AllArgsConstructor
-@ToString
+@Value
 public class Product {
     private final ProductId id;
     private final String name;

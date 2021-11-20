@@ -12,6 +12,10 @@ public class ProductFacade {
         return productRepository.save(product);
     }
 
+    public Optional<Product> findById(final String id) {
+        return findById(ProductId.of(id));
+    }
+
     public Optional<Product> findById(final ProductId id) {
         return productRepository.findById(id);
     }
