@@ -4,13 +4,20 @@ import lombok.AllArgsConstructor;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.api.order.OrderError;
-import pl.edu.wszib.order.api.order.OrderItemAddApi;
 import pl.edu.wszib.order.application.product.Product;
 import pl.edu.wszib.order.application.product.ProductFacade;
-import pl.edu.wszib.order.application.product.ProductId;
 
 import java.util.Optional;
 
+//TODO Zajęcia 1:
+//TODO umówić refactor
+//TODO dodać OrderModule (ProductModule też)
+//TODO dodać walidację klas Api
+
+//TODO Zajęcia 2:
+// implementacja testu usuwającego pozycję
+// AbstractTest
+// CI za pomocą Github actions
 @AllArgsConstructor
 public class OrderFacade {
     private final OrderRepository orderRepository;
@@ -20,6 +27,11 @@ public class OrderFacade {
         final Order order = Order.create();
         orderRepository.save(order);
         return order.toApi();
+    }
+
+    public OrderApi findByIdOrThrow(final String orderId) {
+        return findById(orderId)
+                .orElseThrow();
     }
 
     public Optional<OrderApi> findById(final String id) {
@@ -32,21 +44,21 @@ public class OrderFacade {
     }
 
     public OrderApiResult addItem(final String orderId,
-                                  final OrderItemAddApi itemToAdd) {
+                                  final String productId,
+                                  final Integer quantity) {
         return orderRepository.findById(orderId)
-                .map(order -> addItem(order, itemToAdd))
+                .map(order -> addItem(order, productId, quantity))
                 .orElseGet(() -> OrderApiResult.failure(OrderError.ORDER_NOT_FOUND));
     }
 
     //TODO Refactor
     private OrderApiResult addItem(final Order order,
-                                   final OrderItemAddApi itemToAdd) {
-        final String productId = itemToAdd.getProductId();
+                                   final String productId,
+                                   final Integer quantity) {
         final Optional<Product> product = productFacade.findById(productId);
         if (product.isEmpty()) {
             return OrderApiResult.failure(OrderError.PRODUCT_NOT_FOUND);
         }
-        final Integer quantity = itemToAdd.getQuantity();
         final OrderItem orderItem = OrderItem.create(product.get(), quantity);
         final Order modifiedOrder = order.addItem(orderItem);
         return OrderApiResult.success(orderRepository.save(modifiedOrder).toApi());

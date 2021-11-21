@@ -3,7 +3,6 @@ package pl.edu.wszib.order.application.order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.wszib.order.api.order.OrderApi;
-import pl.edu.wszib.order.api.order.OrderItemAddApi;
 import pl.edu.wszib.order.application.product.*;
 
 import java.util.Optional;
@@ -24,7 +23,6 @@ public class OrderFacadeTest {
     @BeforeEach
     public void setup() {
         final OrderRepository orderRepository = new InMemoryOrderRepository();
-        //TODO Refactor
         final ProductFacade productFacade = new ProductFacade(new InMemoryProductRepository());
         new ProductRepositoryInitialization().init(productFacade);
         orderFacade = new OrderFacade(orderRepository, productFacade);
@@ -47,20 +45,20 @@ public class OrderFacadeTest {
     public void should_be_able_to_add_item_to_order() {
         //given:
         final String orderId = orderFacade.create().getId();
-
-        final OrderItemAddApi itemToAdd = new OrderItemAddApi(ProductSamples.CHOCOLATE.getId().asBasicType(), 1);
+        final String productToAdd = ProductSamples.CHOCOLATE.getId().asBasicType();
 
         //when:
-        orderFacade.addItem(orderId, itemToAdd);
+        orderFacade.addItem(orderId, productToAdd, 1);
 
         //then:
-        Optional<OrderApi> foundOrder = orderFacade.findById(orderId);
-        assertTrue(foundOrder.isPresent());
-        //TODO Refactor
-        boolean orderContainsProductWeWantedToAdd = foundOrder.get().getItems().stream().anyMatch(orderItemApi -> orderItemApi.getProductId().equals(itemToAdd.getProductId()));
-        assertTrue(orderContainsProductWeWantedToAdd);
+        assertOrderContainsProduct(orderId, productToAdd);
+    }
 
-        System.out.println("FoundOrder: " + foundOrder);
+    private void assertOrderContainsProduct(final String orderId,
+                                            final String productId) {
+        final OrderApi modifiedOrder = orderFacade.findByIdOrThrow(orderId);
+        boolean orderContainsProductWeWantedToAdd = modifiedOrder.containsProduct(productId);
+        assertTrue(orderContainsProductWeWantedToAdd);
     }
 
     @Test
