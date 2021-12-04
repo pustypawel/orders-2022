@@ -27,8 +27,4 @@ public class OrderValidationTest {
         assertTrue(validationResult.isEmpty());
     }
 
-    @Test
-    public void toRemove() {
-        assertTrue(false);
-    }
 }
