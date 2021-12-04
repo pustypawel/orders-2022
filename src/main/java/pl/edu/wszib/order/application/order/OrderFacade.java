@@ -63,4 +63,14 @@ public class OrderFacade {
         final Order modifiedOrder = order.addItem(orderItem);
         return OrderApiResult.success(orderRepository.save(modifiedOrder).toApi());
     }
+
+    public OrderApiResult removeItem(final String orderId,
+                                     final String productId) {
+        return orderRepository.findById(orderId)
+                .map(order -> order.removeItem(productId))
+                .map(orderRepository::save)
+                .map(Order::toApi)
+                .map(OrderApiResult::success)
+                .orElseGet(() -> OrderApiResult.failure(OrderError.ORDER_NOT_FOUND));
+    }
 }

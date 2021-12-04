@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -22,5 +23,9 @@ public class ProductId {
 
     public String asBasicType() {
         return id;
+    }
+
+    public boolean hasId(final String id) {
+        return Objects.equals(this.id, id);
     }
 }

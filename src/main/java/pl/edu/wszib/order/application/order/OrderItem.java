@@ -32,6 +32,10 @@ public class OrderItem {
         return new OrderItem(product, quantity);
     }
 
+    public boolean hasProductId(final String productId) {
+        return product.hasId(productId);
+    }
+
     public OrderItemApi toApi() {
         return new OrderItemApi(product.getId().asBasicType(), product.getName(), product.getPrice(), quantity, amount);
     }

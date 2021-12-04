@@ -29,6 +29,10 @@ public class Order {
         return new Order(id, state, items.add(orderItem), amount);  //TODO Impl amount
     }
 
+    public Order removeItem(final String productId) {
+        return new Order(id, state, items.remove(productId), amount);
+    }
+
     public OrderApi toApi() {
         return new OrderApi(id.asBasicType(), state, items.toApi(), amount);
     }

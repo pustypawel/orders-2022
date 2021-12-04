@@ -22,6 +22,11 @@ public class OrderItems {
         return new OrderItems(items);
     }
 
+    OrderItems remove(final String productId) {
+        items.removeIf(item -> item.hasProductId(productId));
+        return new OrderItems(items);
+    }
+
     public Set<OrderItemApi> toApi() {
         return items.stream()
                 .map(OrderItem::toApi)

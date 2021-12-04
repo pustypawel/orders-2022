@@ -13,6 +13,10 @@ public class OrderApi {
     private final Set<OrderItemApi> items;
     private final BigDecimal amount;
 
+    public boolean notContainsProduct(final String productId) {
+        return !containsProduct(productId);
+    }
+
     public boolean containsProduct(final String productId) {
         return items.stream()
                 .anyMatch(item -> item.hasProductId(productId));
