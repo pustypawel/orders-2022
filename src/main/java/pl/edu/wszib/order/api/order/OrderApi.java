@@ -15,7 +15,6 @@ public class OrderApi {
 
     public boolean containsProduct(final String productId) {
         return items.stream()
-                .map(OrderItemApi::getProductId)
-                .anyMatch(itemProductId -> itemProductId.equals(productId));
+                .anyMatch(item -> item.hasProductId(productId));
     }
 }
