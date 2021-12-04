@@ -11,7 +11,6 @@ import pl.edu.wszib.order.application.product.ProductFacade;
 import java.util.Optional;
 
 //TODO Zajęcia 1:
-//TODO dodać OrderModule (ProductModule też)
 //TODO dodać walidację klas Api
 
 //TODO Zajęcia 2:

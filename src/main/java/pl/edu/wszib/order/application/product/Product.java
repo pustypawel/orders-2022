@@ -1,16 +1,24 @@
 package pl.edu.wszib.order.application.product;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
 import lombok.Value;
 
 import java.math.BigDecimal;
-import java.util.Objects;
 
 @Value
 public class Product {
+    @NotNull
     private final ProductId id;
+
+    @NotNull
+    @Max(2)
+    @Max(50)
     private final String name;
+
     //można docelowo przejść na:
     //https://github.com/JavaMoney/jsr354-api
+    @NotNull
     private final BigDecimal price;
 
     public boolean hasId(final String productId) {
