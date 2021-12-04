@@ -1,10 +1,11 @@
 package pl.edu.wszib.order.application.product;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 
 import java.util.Optional;
 
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ProductFacade {
     private final ProductRepository productRepository;
 

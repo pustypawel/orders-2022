@@ -3,7 +3,6 @@ package pl.edu.wszib.order.application.order;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.edu.wszib.order.api.order.OrderApi;
-import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.application.product.*;
 
 import java.util.Optional;
@@ -23,10 +22,8 @@ public class OrderFacadeTest {
 
     @BeforeEach
     public void setup() {
-        final OrderRepository orderRepository = new InMemoryOrderRepository();
-        final ProductFacade productFacade = new ProductFacade(new InMemoryProductRepository());
-        new ProductRepositoryInitialization().init(productFacade);
-        orderFacade = new OrderFacade(orderRepository, productFacade);
+        final ProductFacade productFacade = new ProductModuleInitialization().getProductFacade();
+        orderFacade = new OrderModuleInitialization(productFacade).getProductFacade();
     }
 
     @Test

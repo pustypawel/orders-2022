@@ -1,5 +1,6 @@
 package pl.edu.wszib.order.application.order;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
@@ -10,7 +11,6 @@ import pl.edu.wszib.order.application.product.ProductFacade;
 import java.util.Optional;
 
 //TODO Zajęcia 1:
-//TODO umówić refactor
 //TODO dodać OrderModule (ProductModule też)
 //TODO dodać walidację klas Api
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 // implementacja testu usuwającego pozycję
 // AbstractTest
 // CI za pomocą Github actions
-@AllArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class OrderFacade {
     private final OrderRepository orderRepository;
     private final ProductFacade productFacade;
