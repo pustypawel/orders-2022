@@ -2,6 +2,7 @@ package pl.edu.wszib.order.application.product;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Value;
 
 import java.math.BigDecimal;
@@ -19,6 +20,7 @@ public class Product {
     //można docelowo przejść na:
     //https://github.com/JavaMoney/jsr354-api
     @NotNull
+    @Positive
     private final BigDecimal price;
 
     public boolean hasId(final String productId) {

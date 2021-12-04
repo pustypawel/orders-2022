@@ -1,5 +1,6 @@
 package pl.edu.wszib.order.api.order;
 
+import jakarta.validation.constraints.AssertTrue;
 import lombok.Value;
 
 @Value
@@ -21,5 +22,14 @@ public class OrderApiResult {
 
     public boolean isFailure() {
         return !isSuccess();
+    }
+
+    @AssertTrue
+    private boolean isValid() {
+        if (order == null) {
+            return error != null;
+        } else {
+            return error == null;
+        }
     }
 }
