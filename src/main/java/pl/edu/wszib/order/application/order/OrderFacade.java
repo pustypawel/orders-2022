@@ -10,11 +10,8 @@ import pl.edu.wszib.order.application.product.ProductFacade;
 
 import java.util.Optional;
 
-//TODO Zajęcia 1:
-//TODO dodać walidację klas Api
 
 //TODO Zajęcia 2:
-// implementacja testu usuwającego pozycję
 // AbstractTest
 // CI za pomocą Github actions
 @AllArgsConstructor(access = AccessLevel.PACKAGE)

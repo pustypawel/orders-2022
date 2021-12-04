@@ -1,9 +1,11 @@
 package pl.edu.wszib.order.application.product;
 
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Value;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 
@@ -13,8 +15,7 @@ public class Product {
     private final ProductId id;
 
     @NotNull
-    @Max(2)
-    @Max(50)
+    @Length(min = 2, max = 50)
     private final String name;
 
     //można docelowo przejść na:

@@ -2,6 +2,7 @@ package pl.edu.wszib.order.api.order;
 
 import jakarta.validation.constraints.*;
 import lombok.Value;
+import org.hibernate.validator.constraints.Length;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -12,8 +13,7 @@ public class OrderItemApi {
     private final String productId;
 
     @NotBlank
-    @Min(2)
-    @Max(50)
+    @Length(min = 2, max = 50)
     private final String name;
 
     @NotNull

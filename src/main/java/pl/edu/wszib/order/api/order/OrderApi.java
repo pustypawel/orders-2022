@@ -1,5 +1,6 @@
 package pl.edu.wszib.order.api.order;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +17,7 @@ public class OrderApi {
     @NotNull
     private final OrderState state;
     @NotEmpty
-    private final Set<OrderItemApi> items;
+    private final Set<@Valid OrderItemApi> items;
     @NotNull
     private final BigDecimal amount;
 
