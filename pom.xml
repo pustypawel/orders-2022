@@ -12,6 +12,8 @@
     <modules>
         <module>orders-api</module>
         <module>orders-application</module>
+        <module>orders-console-ui</module>
+        <module>orders-infrastructure</module>
     </modules>
 
     <!--
@@ -91,7 +93,6 @@
                 <artifactId>orders-application</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
         </dependencies>
     </dependencyManagement>
 </project>

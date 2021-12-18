@@ -21,4 +21,5 @@ public class ProductFacade {
         return productRepository.findById(id);
     }
 
+    //TODO findAll
 }
