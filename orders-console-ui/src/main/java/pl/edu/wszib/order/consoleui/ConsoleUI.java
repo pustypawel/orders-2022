@@ -6,25 +6,7 @@ public class ConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
 
     public void run() {
-        showMenu();
-        waitForInput();
-    }
-
-    private String waitForInput() {
-        System.out.println("Wybieram opcję: ");
-        return scanner.nextLine();
-    }
-
-    private void showMenu() {
-        System.out.println("1. Utwórz zamówienie");
-    }
-
-    private void createOrder() {
-//        return new OrderApi();
-    }
-
-    private void findById(final String id) {
-//        return new OrderApi("")
+        new OrderMenuView(scanner).open();
     }
 
     // 1. Utwórz zamówienie
