@@ -34,17 +34,17 @@ public class OrderFacadeTest {
         //given:
 
         //when:
-        final OrderApi createdOrder = orderFacade.create();
+        final OrderApi createdOrder = orderFacade.create().getOrder();
 
         //then:
-        final Optional<OrderApi> foundOrder = orderFacade.findById(createdOrder.getId());
-        assertTrue(foundOrder.isPresent());
+        final OrderApiResult foundOrder = orderFacade.findById(createdOrder.getId());
+        assertTrue(foundOrder.isSuccess());
     }
 
     @Test
     public void should_be_able_to_add_item_to_order() {
         //given:
-        final String orderId = orderFacade.create().getId();
+        final String orderId = orderFacade.create().getOrder().getId();
         final String productToAdd = ProductSamples.CHOCOLATE.getId();
 
         //when:
@@ -65,7 +65,7 @@ public class OrderFacadeTest {
     @Test
     public void should_be_able_to_remove_item_from_order() {
         //given:
-        final String orderId = orderFacade.create().getId();
+        final String orderId = orderFacade.create().getOrder().getId();
         final String productToRemove = ProductSamples.CHOCOLATE.getId();
         orderFacade.addItem(orderId, productToRemove, 1);
         orderFacade.addItem(orderId, ProductSamples.COCA_COLA_ZERO.getId(), 1);

@@ -1,12 +1,32 @@
 package pl.edu.wszib.order.consoleui;
 
+import pl.edu.wszib.order.api.product.ProductApi;
+import pl.edu.wszib.order.application.order.InMemoryOrderRepository;
+import pl.edu.wszib.order.application.order.OrderModule;
+import pl.edu.wszib.order.application.product.InMemoryProductRepository;
+import pl.edu.wszib.order.application.product.ProductModule;
+
+import java.math.BigDecimal;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class ConsoleUI {
     private final Scanner scanner = new Scanner(System.in);
 
     public void run() {
-        new OrderMenuView(scanner).open();
+        final ProductApi chocolate = new ProductApi(UUID.randomUUID().toString(),
+                "Czekolada",
+                BigDecimal.valueOf(4));
+        final ProductApi cocaCola = new ProductApi(UUID.randomUUID().toString(),
+                "Coca-cola",
+                BigDecimal.valueOf(5));
+
+        final ProductModule productModule = new ProductModule(new InMemoryProductRepository());
+        productModule.getFacade().create(chocolate);
+        productModule.getFacade().create(cocaCola);
+
+        final OrderModule orderModule = new OrderModule(new InMemoryOrderRepository(), productModule.getFacade());
+        new OrderMenuView(scanner, orderModule.getFacade(), productModule.getFacade()).open();
     }
 
     // 1. Utwórz zamówienie

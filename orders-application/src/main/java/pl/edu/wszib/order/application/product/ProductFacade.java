@@ -4,7 +4,10 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import pl.edu.wszib.order.api.product.ProductApi;
 
+import java.math.BigDecimal;
 import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class ProductFacade {
@@ -25,5 +28,8 @@ public class ProductFacade {
                 .map(Product::toApi);
     }
 
-    //TODO findAll
+    public Set<ProductApi> findAll() {
+        //TODO ZADANIE findAll
+        return Set.of();
+    }
 }

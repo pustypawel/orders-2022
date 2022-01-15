@@ -1,8 +1,11 @@
 package pl.edu.wszib.order.consoleui;
 
 import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.api.order.OrderState;
 import pl.edu.wszib.order.api.product.ProductApi;
+import pl.edu.wszib.order.application.order.OrderFacade;
+import pl.edu.wszib.order.application.product.ProductFacade;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -10,12 +13,18 @@ import java.util.UUID;
 
 class OrderMenuController {
     private final OrderMenuView view;
+    private final OrderFacade orderFacade;
+    private final ProductFacade productFacade;
 
-    public OrderMenuController(final OrderMenuView view) {
+    public OrderMenuController(final OrderMenuView view,
+                               final OrderFacade orderFacade,
+                               final ProductFacade productFacade) {
         this.view = view;
+        this.orderFacade = orderFacade;
+        this.productFacade = productFacade;
     }
 
-    OrderApi handle(final OrderMenuOption option) {
+    OrderApiResult handle(final OrderMenuOption option) {
         switch (option) {
             case CREATE_ORDER:
                 return createOrder();
@@ -32,45 +41,36 @@ class OrderMenuController {
         }
     }
 
-    private OrderApi createOrder() {
-//        final OrderItemApi item = new OrderItemApi(UUID.randomUUID().toString(), "Testowy produkt", BigDecimal.valueOf(10), 1);
-        //TODO wywołać logikę aplikacyjną
-        return new OrderApi(UUID.randomUUID().toString(), OrderState.CREATED, Set.of(), BigDecimal.ZERO);
+    private OrderApiResult createOrder() {
+        return orderFacade.create();
     }
 
-    private OrderApi getOrder() {
+    private OrderApiResult getOrder() {
         final String orderId = view.getOrderId();
-        //TODO odpytać logikę aplikacyjną
-        return new OrderApi(UUID.randomUUID().toString(), OrderState.CREATED, Set.of(), BigDecimal.ZERO);
+        return orderFacade.findById(orderId);
     }
 
-    private OrderApi addItem() {
+    private OrderApiResult addItem() {
         final String orderId = view.getOrderId();
-        //TODO wywołać logikę aplikacyjną
-        final ProductApi chocolate = new ProductApi(UUID.randomUUID().toString(),
-                "Czekolada",
-                BigDecimal.valueOf(4));
-        final ProductApi cocaCola = new ProductApi(UUID.randomUUID().toString(),
-                "Coca-cola",
-                BigDecimal.valueOf(5));
-        final String productId = view.getProduct(Set.of(chocolate, cocaCola));
-        //TODO wywołać logikę aplikacyjną
-        return new OrderApi(UUID.randomUUID().toString(), OrderState.CREATED, Set.of(), BigDecimal.ZERO);
+        final Set<ProductApi> products = productFacade.findAll();
+        final String productId = view.getProduct(products);
+        return orderFacade.addItem(orderId, productId, 1);  //TODO pytanie o quantity
     }
 
-    private OrderApi removeItem() {
-        //TODO wywołać logikę aplikacyjną
+    private OrderApiResult removeItem() {
         final String orderId = view.getOrderId();
-        //TODO wywołać logikę aplikacyjną
-        final OrderApi order = new OrderApi(UUID.randomUUID().toString(), OrderState.CREATED, Set.of(), BigDecimal.ZERO);
-
-        final String productId = view.getProduct(Set.of());
-        return order;
+        final OrderApiResult result = orderFacade.findById(orderId);
+        if (result.isSuccess()) {
+            final OrderApi order = result.getOrder();
+            final String productId = view.getProduct(order.getProducts());
+            return orderFacade.removeItem(orderId, productId);
+        }
+        return result;
     }
 
 
-    private OrderApi exit() {
+    private OrderApiResult exit() {
         view.sayGoodbye();
-        return new OrderApi(UUID.randomUUID().toString(), OrderState.CREATED, Set.of(), BigDecimal.ZERO);
+        return null;
     }
 }
