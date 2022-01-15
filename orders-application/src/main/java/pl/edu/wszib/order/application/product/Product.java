@@ -1,28 +1,29 @@
 package pl.edu.wszib.order.application.product;
 
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
 import lombok.Value;
-import org.hibernate.validator.constraints.Length;
+import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.math.BigDecimal;
 
 @Value
-public class Product {
-    @NotNull
+class Product {
     private final ProductId id;
 
-    @NotNull
-    @Length(min = 2, max = 50)
     private final String name;
 
     //można docelowo przejść na:
     //https://github.com/JavaMoney/jsr354-api
-    @NotNull
-    @Positive
     private final BigDecimal price;
+
+    public static Product create(final ProductApi productApi) {
+        return new Product(ProductId.of(productApi.getId()), productApi.getName(), productApi.getPrice());
+    }
 
     public boolean hasId(final String productId) {
         return id.hasId(productId);
+    }
+
+    public ProductApi toApi() {
+        return new ProductApi(id.asBasicType(), name, price);
     }
 }

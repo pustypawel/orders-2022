@@ -14,7 +14,7 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public Optional<Product> findById(ProductId id) {
+    public Optional<Product> findById(final ProductId id) {
         return Optional.ofNullable(products.get(id));
     }
 

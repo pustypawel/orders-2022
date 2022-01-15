@@ -1,4 +1,4 @@
-package pl.edu.wszib.order.api;
+package pl.edu.wszib.order.api.order;
 
 public enum OrderState {
     CREATED,

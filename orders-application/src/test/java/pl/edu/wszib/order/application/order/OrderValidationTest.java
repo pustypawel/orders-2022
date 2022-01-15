@@ -4,9 +4,10 @@ import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
 import org.junit.jupiter.api.Test;
-import pl.edu.wszib.order.api.OrderApi;
-import pl.edu.wszib.order.api.OrderItemApi;
-import pl.edu.wszib.order.api.OrderState;
+import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderItemApi;
+import pl.edu.wszib.order.api.order.OrderState;
+import pl.edu.wszib.order.application.product.ProductSamples;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -21,7 +22,7 @@ public class OrderValidationTest {
     public void validation_should_work() {
         OrderApi orderApi = new OrderApi(UUID.randomUUID().toString(),
                 OrderState.CREATED,
-                Set.of(new OrderItemApi(UUID.randomUUID().toString(), "Test product", BigDecimal.valueOf(4), 1, BigDecimal.valueOf(4))),
+                Set.of(new OrderItemApi(UUID.randomUUID().toString(), ProductSamples.CHOCOLATE, 1, BigDecimal.valueOf(4))),
                 BigDecimal.valueOf(4));
         final Set<ConstraintViolation<OrderApi>> validationResult = validator.validate(orderApi);
         validationResult.forEach(validation -> System.out.println("Pole " + validation.getPropertyPath() + " " + validation.getMessage()));

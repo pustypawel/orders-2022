@@ -1,8 +1,10 @@
-package pl.edu.wszib.order.api;
+package pl.edu.wszib.order.api.order;
 
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.Value;
-import org.hibernate.validator.constraints.Length;
+import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.math.BigDecimal;
 import java.util.Objects;
@@ -12,13 +14,8 @@ public class OrderItemApi {
     @NotBlank
     private final String productId;
 
-    @NotBlank
-    @Length(min = 2, max = 50)
-    private final String name;
-
     @NotNull
-    @Positive
-    private final BigDecimal price;
+    private final ProductApi product;
 
     @NotNull
     @Positive

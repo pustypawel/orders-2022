@@ -2,21 +2,24 @@ package pl.edu.wszib.order.application.order;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import pl.edu.wszib.order.api.OrderItemApi;
-import pl.edu.wszib.order.application.product.Product;
+import pl.edu.wszib.order.api.order.OrderItemApi;
+import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.math.BigDecimal;
 
 @AllArgsConstructor
 @ToString
 public class OrderItem {
-    private final Product product;
+    private final String productId;
+    private final ProductApi productApi;
     private final Integer quantity;
     private final BigDecimal amount;
 
-    private OrderItem(final Product product,
+    private OrderItem(final String productId,
+                      final ProductApi productApi,
                       final Integer quantity) {
-        this.product = product;
+        this.productId = productId;
+        this.productApi = productApi;
         this.quantity = quantity;
         this.amount = calculateAmount();
     }
@@ -25,16 +28,16 @@ public class OrderItem {
         return BigDecimal.valueOf(0);   //TODO Impl
     }
 
-    public static OrderItem create(final Product product,
+    public static OrderItem create(final ProductApi productApi,
                                    final Integer quantity) {
-        return new OrderItem(product, quantity);
+        return new OrderItem(productApi.getId(), productApi, quantity);
     }
 
     public boolean hasProductId(final String productId) {
-        return product.hasId(productId);
+        return this.productId.equals(productId);
     }
 
     public OrderItemApi toApi() {
-        return new OrderItemApi(product.getId().asBasicType(), product.getName(), product.getPrice(), quantity, amount);
+        return new OrderItemApi(productId, productApi, quantity, amount);
     }
 }

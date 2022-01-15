@@ -2,7 +2,7 @@ package pl.edu.wszib.order.application.order;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import pl.edu.wszib.order.api.OrderItemApi;
+import pl.edu.wszib.order.api.order.OrderItemApi;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,9 +1,8 @@
 package pl.edu.wszib.order.consoleui;
 
-import pl.edu.wszib.order.api.OrderApi;
-import pl.edu.wszib.order.api.OrderState;
-import pl.edu.wszib.order.application.product.Product;
-import pl.edu.wszib.order.application.product.ProductId;
+import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderState;
+import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -48,10 +47,10 @@ class OrderMenuController {
     private OrderApi addItem() {
         final String orderId = view.getOrderId();
         //TODO wywołać logikę aplikacyjną
-        final Product chocolate = new Product(ProductId.create(),
+        final ProductApi chocolate = new ProductApi(UUID.randomUUID().toString(),
                 "Czekolada",
                 BigDecimal.valueOf(4));
-        final Product cocaCola = new Product(ProductId.create(),
+        final ProductApi cocaCola = new ProductApi(UUID.randomUUID().toString(),
                 "Coca-cola",
                 BigDecimal.valueOf(5));
         final String productId = view.getProduct(Set.of(chocolate, cocaCola));

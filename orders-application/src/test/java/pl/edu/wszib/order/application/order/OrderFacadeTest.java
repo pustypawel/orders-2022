@@ -1,6 +1,7 @@
 package pl.edu.wszib.order.application.order;
 
-import pl.edu.wszib.order.api.OrderApi;
+import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.application.product.ProductModuleInitialization;
 import pl.edu.wszib.order.application.product.ProductSamples;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,12 +45,13 @@ public class OrderFacadeTest {
     public void should_be_able_to_add_item_to_order() {
         //given:
         final String orderId = orderFacade.create().getId();
-        final String productToAdd = ProductSamples.CHOCOLATE.getId().asBasicType();
+        final String productToAdd = ProductSamples.CHOCOLATE.getId();
 
         //when:
-        orderFacade.addItem(orderId, productToAdd, 1);
+        final OrderApiResult result = orderFacade.addItem(orderId, productToAdd, 1);
 
         //then:
+        assertTrue(result.isSuccess());
         assertOrderContainsProduct(orderId, productToAdd);
     }
 
@@ -64,9 +66,9 @@ public class OrderFacadeTest {
     public void should_be_able_to_remove_item_from_order() {
         //given:
         final String orderId = orderFacade.create().getId();
-        final String productToRemove = ProductSamples.CHOCOLATE.getId().asBasicType();
+        final String productToRemove = ProductSamples.CHOCOLATE.getId();
         orderFacade.addItem(orderId, productToRemove, 1);
-        orderFacade.addItem(orderId, ProductSamples.COCA_COLA_ZERO.getId().asBasicType(), 1);
+        orderFacade.addItem(orderId, ProductSamples.COCA_COLA_ZERO.getId(), 1);
 
         //when:
         orderFacade.removeItem(orderId, productToRemove);

@@ -1,7 +1,7 @@
 package pl.edu.wszib.order.consoleui;
 
-import pl.edu.wszib.order.api.OrderApi;
-import pl.edu.wszib.order.application.product.Product;
+import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.util.Scanner;
 import java.util.Set;
@@ -53,12 +53,12 @@ public class OrderMenuView {
         System.out.println(text);
     }
 
-    public String getProduct(final Set<Product> products) {
+    public String getProduct(final Set<ProductApi> products) {
         products.forEach(this::printProduct);
         return scanner.nextLine();
     }
 
-    private void printProduct(final Product product) {
+    private void printProduct(final ProductApi product) {
         println("Id: " + product.getId() + " Name: " + product.getName() + " Price: " + product.getPrice());
     }
 

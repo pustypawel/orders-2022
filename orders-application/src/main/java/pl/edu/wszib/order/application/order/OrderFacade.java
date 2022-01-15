@@ -2,10 +2,10 @@ package pl.edu.wszib.order.application.order;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import pl.edu.wszib.order.api.OrderApi;
-import pl.edu.wszib.order.api.OrderApiResult;
-import pl.edu.wszib.order.api.OrderError;
-import pl.edu.wszib.order.application.product.Product;
+import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderApiResult;
+import pl.edu.wszib.order.api.order.OrderError;
+import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.product.ProductFacade;
 
 import java.util.Optional;
@@ -51,7 +51,7 @@ public class OrderFacade {
     private OrderApiResult addItem(final Order order,
                                    final String productId,
                                    final Integer quantity) {
-        final Optional<Product> product = productFacade.findById(productId);
+        final Optional<ProductApi> product = productFacade.findById(productId);
         if (product.isEmpty()) {
             return OrderApiResult.failure(OrderError.PRODUCT_NOT_FOUND);
         }

@@ -3,8 +3,8 @@ package pl.edu.wszib.order.application.order;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
-import pl.edu.wszib.order.api.OrderApi;
-import pl.edu.wszib.order.api.OrderState;
+import pl.edu.wszib.order.api.order.OrderApi;
+import pl.edu.wszib.order.api.order.OrderState;
 
 import java.math.BigDecimal;
 
