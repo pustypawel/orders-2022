@@ -2,14 +2,12 @@ package pl.edu.wszib.order.consoleui;
 
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
-import pl.edu.wszib.order.api.order.OrderState;
 import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.order.OrderFacade;
 import pl.edu.wszib.order.application.product.ProductFacade;
 
-import java.math.BigDecimal;
+import java.util.Optional;
 import java.util.Set;
-import java.util.UUID;
 
 class OrderMenuController {
     private final OrderMenuView view;
@@ -24,21 +22,28 @@ class OrderMenuController {
         this.productFacade = productFacade;
     }
 
-    OrderApiResult handle(final OrderMenuOption option) {
+    Optional<OrderApiResult> handle(final OrderMenuOption option) {
+        OrderApiResult result;
         switch (option) {
             case CREATE_ORDER:
-                return createOrder();
+                result = createOrder();
+                break;
             case GET_ORDER:
-                return getOrder();
+                result = getOrder();
+                break;
             case ADD_ITEM_TO_ORDER:
-                return addItem();
+                result = addItem();
+                break;
             case REMOVE_ITEM_FROM_ORDER:
-                return removeItem();
+                result = removeItem();
+                break;
             case EXIT:
-                return exit();
+                result = exit();
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + option);
         }
+        return Optional.ofNullable(result);
     }
 
     private OrderApiResult createOrder() {

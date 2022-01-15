@@ -28,8 +28,8 @@ public class OrderMenuView {
     private OrderMenuOption option() {
         printOptions();
         final OrderMenuOption option = readOption();
-        final OrderApiResult result = controller.handle(option);
-        printResult(result);
+        controller.handle(option)
+                .ifPresent(this::printResult);
         return option;
     }
 
