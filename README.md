@@ -9,3 +9,4 @@ https://oai.github.io/Documentation/best-practices.html
 https://redoc.ly/  
 https://marketplace.visualstudio.com/items?itemName=Redocly.openapi-vs-code    
 https://editor.swagger.io/  
+https://redoc.ly/docs/cli/resources/built-in-rules/  

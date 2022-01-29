@@ -41,3 +41,11 @@ public class OrderItem {
         return new OrderItemApi(productId, productApi, quantity, amount);
     }
 }
+
+/*
+#TODO Przygotować API dla zamówień:
+  # create order (POST)
+  # find order (GET)
+  # add item (POST /orders/{orderId}/items)
+  # remove item (DELETE /orders/{orderId}/items/{productId})
+ */

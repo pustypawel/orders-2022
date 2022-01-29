@@ -33,3 +33,26 @@ public class ProductFacade {
                 .collect(Collectors.toSet());
     }
 }
+
+/*
+/products/{productId}
+/products
+GET - do pobierania danych
+/products
+POST - do tworzenia zasobów
+/order/{productId}
+PUT - do tworzenia i nadpisania zasobów
+/order/{productId}
+DELETE - do usuwania
+/order/{productId}
+PATCH - do aktualizacji/częściowej aktualizacji
+
+HEADER
+Header1: My header
+Header2: My header2
+Content-type: application/json
+
+{
+"test": "my body"
+}
+ */
