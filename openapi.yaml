@@ -1,13 +1,21 @@
 openapi: 3.1.0
 info:
-  title: Title
+  title: OpenAPI for order system
   description: Title
   version: 1.0.0
+tags:
+  - name: Products
+    description: Products endpoints
+  - name: Orders
+    description: Orders endpoints
 servers:
-  - url: "https"
+  - url: "https://localhost:8080"
+
 paths:
   /products/{productId}:
     get:
+      tags:
+        - Products
       parameters:
         - name: productId
           description: Identyfikator produkty
@@ -28,6 +36,8 @@ paths:
           description: Nie znaleziono produktu o podanym id.
   /products:
     post:
+      tags:
+        - Products
       operationId: createProduct
       summary: Products
       requestBody:
@@ -43,6 +53,8 @@ paths:
               schema:
                 $ref: "#/components/schemas/Product"
     get:
+      tags:
+        - Products
       operationId: getAllProducts
       summary: Products
       responses:
@@ -54,6 +66,13 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Product"
+  /orders:
+    get:
+      tags:
+        - Orders
+      summary: Orders
+      operationId: getAllOrders
+      
 components:
   schemas:
     Product:
