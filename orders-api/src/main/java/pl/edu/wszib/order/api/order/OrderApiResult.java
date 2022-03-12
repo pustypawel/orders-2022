@@ -1,6 +1,6 @@
 package pl.edu.wszib.order.api.order;
 
-import jakarta.validation.constraints.AssertTrue;
+import javax.validation.constraints.AssertTrue;
 import lombok.Value;
 
 @Value
