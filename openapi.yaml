@@ -66,13 +66,81 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Product"
-  /orders:
+  /orders/{orderId}:
     get:
       tags:
         - Orders
-      summary: Orders
+      operationId: getOrder
+      summary: Get order by id.
+      parameters: #TODO $ref
+        - name: orderId
+          in: path
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+  /orders/{orderId}/items: 
+    post:
+      tags:
+        - Orders
+      operationId: addOrderItem
+      summary: Add item to order.
+      parameters: #TODO $ref
+        - name: orderId
+          in: path
+      requestBody:
+        content: 
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddOrderItem"
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+  /orders/{orderId}/items/{productId}: 
+    delete:
+      tags:
+        - Orders
+      operationId: removeOrderItem
+      summary: Remove item to order.
+      parameters: #TODO $ref
+        - name: orderId
+          in: path
+        - name: productId
+          in: path
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
+  /orders:
+    post:
+      tags:
+        - Orders
+      summary: Create order.
+      operationId: createOrder
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"    
+    get:
+      tags:
+        - Orders
+      summary: Get all orders.
       operationId: getAllOrders
-      
+      responses:
+        200:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Order"
 components:
   schemas:
     Product:
@@ -87,3 +155,67 @@ components:
         price:
           description: Cena produktu
           type: number
+          multipleOf: 0.01
+      required:
+        - id
+        - name
+        - price
+    Order:
+      type: object
+      description: Order data.
+      properties:
+        id:
+          description: Order id.
+          type: string
+        state:
+          description: Order state.
+          type: string
+          format: enum
+          enum: [ CREATED, FINISHED, ABANDONED ]
+        items:
+          $ref: "#/components/schemas/OrderItems"
+        amount:
+          description: Order amount.
+          type: number
+          multipleOf: 0.01
+      required:
+        - id
+        - state
+        - amount
+    OrderItems:
+      type: array
+      description: Order Items.
+      items:
+        $ref: "#/components/schemas/OrderItem"
+    OrderItem:
+      type: object
+      description: Order item.
+      properties:
+        productId:
+          description: Product Id.
+          type: string
+        product:
+          $ref: "#/components/schemas/Product"
+        quantity:
+          type: integer
+          minimum: 1
+        amount:
+          description: Item amount.
+          type: number
+          multipleOf: 0.01
+      required:
+        - productId
+        - product
+        - quantity
+        - amount
+    AddOrderItem:
+      properties:
+        productId:
+          description: Product Id.
+          type: string
+        quantity:
+          type: integer
+          minimum: 1
+      required:
+        - productId
+        - quantity
