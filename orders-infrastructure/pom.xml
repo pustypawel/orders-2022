@@ -41,6 +41,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- Project modules -->
+        <dependency>
+            <groupId>pl.edu.wszib</groupId>
+            <artifactId>orders-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>pl.edu.wszib</groupId>
+            <artifactId>orders-application</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

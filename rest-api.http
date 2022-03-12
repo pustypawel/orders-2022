@@ -1,0 +1,18 @@
+### Get all product
+GET http://localhost:8080/products
+Accept: application/json
+
+### Get product
+GET http://localhost:8080/products/TEST_PRODUCT_ID
+Accept: application/json
+
+### Create product
+POST http://localhost:8080/products
+Accept: application/json
+Content-Type: application/json
+
+{
+  "id": "TEST_PRODUCT_ID_1",
+  "name": "Test product 1",
+  "price": 10.23
+}
