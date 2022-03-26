@@ -4,9 +4,11 @@ import org.springframework.web.bind.annotation.*;
 import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.product.ProductFacade;
 
+import javax.validation.Valid;
 import java.util.Optional;
 import java.util.Set;
 
+//TODO [ERROR_HANDLER] handling BAD_REQUEST with details about the errors
 @RestController
 @RequestMapping("/products")
 public class ProductRestController {
@@ -32,7 +34,7 @@ public class ProductRestController {
     }
 
     @PostMapping
-    public ProductApi createProduct(final @RequestBody ProductApi productApi) {
+    public ProductApi createProduct(final @RequestBody @Valid ProductApi productApi) {
         return productFacade.create(productApi);
     }
 }

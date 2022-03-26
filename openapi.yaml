@@ -10,28 +10,19 @@ tags:
     description: Orders endpoints
 servers:
   - url: "https://localhost:8080"
-
 paths:
   /products/{productId}:
     get:
       tags:
         - Products
       parameters:
-        - name: productId
-          description: Identyfikator produkty
-          in: path
-          schema:
-            type: string
+        - $ref: "#/components/parameters/ProductIdParam"
       operationId: getProduct
       summary: Product
       description: Returns all pets from the system that the user has access to
       responses:
         "200":
-          description: Dane produktu.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Product"
+          $ref: "#/components/responses/ProductResponse"
         "404":
           description: Nie znaleziono produktu o podanym id.
   /products:
@@ -41,17 +32,10 @@ paths:
       operationId: createProduct
       summary: Products
       requestBody:
-        content: 
-          application/json:
-            schema:
-              $ref: "#/components/schemas/Product"
+        $ref: "#/components/requestBodies/ProductRequest"
       responses:
         "200":
-          description: Dane produktu.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Product"
+          $ref: "#/components/responses/ProductResponse"
     get:
       tags:
         - Products
@@ -59,68 +43,46 @@ paths:
       summary: Products
       responses:
         "200":
-          description: Dane produktów.
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Product"
+          $ref: "#/components/responses/ProductsResponse"
   /orders/{orderId}:
     get:
       tags:
         - Orders
       operationId: getOrder
       summary: Get order by id.
-      parameters: #TODO $ref
-        - name: orderId
-          in: path
+      parameters:
+      - $ref: "#/components/parameters/OrderIdParam"
       responses:
         200:
-          description: Order.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
-  /orders/{orderId}/items: 
-    post:
+          $ref: "#/components/responses/OrderResponse"
+  /orders/{orderId}/items/{productId}:
+    put:
       tags:
         - Orders
-      operationId: addOrderItem
+      operationId: orderItemAdd
       summary: Add item to order.
-      parameters: #TODO $ref
-        - name: orderId
-          in: path
+      parameters:
+        - $ref: "#/components/parameters/OrderIdParam"
+        - $ref: "#/components/parameters/ProductIdParam"
       requestBody:
         content: 
           application/json:
             schema:
-              $ref: "#/components/schemas/AddOrderItem"
+              $ref: "#/components/schemas/OrderItemAdd"
       responses:
         200:
-          description: Order.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
-  /orders/{orderId}/items/{productId}: 
+          $ref: "#/components/responses/OrderResponse"
     delete:
       tags:
         - Orders
       operationId: removeOrderItem
       summary: Remove item to order.
-      parameters: #TODO $ref
-        - name: orderId
-          in: path
-        - name: productId
-          in: path
+      parameters:
+        - $ref: "#/components/parameters/OrderIdParam"
+        - $ref: "#/components/parameters/ProductIdParam"
       responses:
         200:
-          description: Order.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
+          $ref: "#/components/responses/OrderResponse"
   /orders:
     post:
       tags:
@@ -129,11 +91,7 @@ paths:
       operationId: createOrder
       responses:
         200:
-          description: Order.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"    
+          $ref: "#/components/responses/OrderResponse"  
     get:
       tags:
         - Orders
@@ -141,13 +99,49 @@ paths:
       operationId: getAllOrders
       responses:
         200:
-          description: Order.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Order"
+          $ref: "#/components/responses/OrderResponse"
 components:
+  parameters:
+    ProductIdParam:
+      in: path
+      name: productId
+      schema:
+        $ref: "#/components/schemas/ProductId"
+    OrderIdParam:
+      in: path
+      name: orderId
+      schema:
+        $ref: "#/components/schemas/OrderId"
+  requestBodies:
+    ProductRequest:
+      description: Dane produktu.
+      content: 
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Product"
+  responses:
+    ProductResponse:
+      description: Dane produktu.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Product"
+    ProductsResponse:
+      description: Dane produktów.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Products"
+    OrderResponse:
+      description: Dane zamówienia.
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Order"
   schemas:
+    ProductId:
+      description: Identyfikator produktu
+      type: string
     Product:
       type: object
       properties:
@@ -165,6 +159,13 @@ components:
         - id
         - name
         - price
+    Products:
+      description: Dane produktów.
+      items:
+        $ref: "#/components/schemas/Product"
+    OrderId:
+      description: Identyfikator zamówienia.
+      type: string
     Order:
       type: object
       description: Order data.
@@ -213,14 +214,11 @@ components:
         - product
         - quantity
         - amount
-    AddOrderItem:
+    OrderItemAdd:
       properties:
-        productId:
-          description: Product Id.
-          type: string
         quantity:
           type: integer
           minimum: 1
+          default: 1
       required:
-        - productId
         - quantity

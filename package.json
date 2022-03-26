@@ -7,7 +7,8 @@
     "private": true,
     "scripts": {
       "start": "openapi preview-docs",
-      "stats": "openapi stats"
+      "stats": "openapi stats",
+      "lint": "openapi lint"
     }
   }
   

@@ -2,7 +2,7 @@ package pl.edu.wszib.order.infrastructure.configuration;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import pl.edu.wszib.order.application.order.OrderFacade;
+
 import pl.edu.wszib.order.application.product.InMemoryProductRepository;
 import pl.edu.wszib.order.application.product.ProductFacade;
 import pl.edu.wszib.order.application.product.ProductModule;
