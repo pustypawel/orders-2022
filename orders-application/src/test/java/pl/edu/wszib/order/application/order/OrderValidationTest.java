@@ -22,7 +22,7 @@ public class OrderValidationTest {
     public void validation_should_work() {
         OrderApi orderApi = new OrderApi(UUID.randomUUID().toString(),
                 OrderState.CREATED,
-                Set.of(new OrderItemApi(UUID.randomUUID().toString(), ProductSamples.CHOCOLATE, 1, BigDecimal.valueOf(4))),
+                Set.of(new OrderItemApi(ProductSamples.CHOCOLATE, 1, BigDecimal.valueOf(4))),
                 BigDecimal.valueOf(4));
         final Set<ConstraintViolation<OrderApi>> validationResult = validator.validate(orderApi);
         validationResult.forEach(validation -> System.out.println("Pole " + validation.getPropertyPath() + " " + validation.getMessage()));
