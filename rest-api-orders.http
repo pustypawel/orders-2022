@@ -1,1 +1,6 @@
-#TODO [TASK] impl!
+### Create order
+POST http://localhost:8080/orders
+
+###
+GET http://localhost:8080/orders/4aa5d55b-503d-4d87-bd55-9177a9d5ec8f
+
