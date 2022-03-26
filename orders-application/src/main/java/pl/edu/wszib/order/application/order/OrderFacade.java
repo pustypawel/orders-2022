@@ -8,8 +8,10 @@ import pl.edu.wszib.order.api.order.OrderError;
 import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.product.ProductFacade;
 
+import java.util.Collection;
 import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 
 //TODO Zajęcia 2:
@@ -38,6 +40,13 @@ public class OrderFacade {
         return findById(OrderId.of(id));
     }
 
+    public Collection<OrderApi> findAll() {
+        return orderRepository.findAll()
+                .stream()
+                .map(Order::toApi)
+                .collect(Collectors.toSet());
+    }
+
     public OrderApiResult findById(final OrderId id) {
         return orderRepository.findById(id)
                 .map(Order::toApi)
@@ -52,8 +61,8 @@ public class OrderFacade {
                 .map(order -> addItem(order, productId, quantity))
                 .orElseGet(() -> OrderApiResult.failure(OrderError.ORDER_NOT_FOUND));
     }
-
     //TODO Refactor
+
     private OrderApiResult addItem(final Order order,
                                    final String productId,
                                    final Integer quantity) {
@@ -61,6 +70,7 @@ public class OrderFacade {
         if (product.isEmpty()) {
             return OrderApiResult.failure(OrderError.PRODUCT_NOT_FOUND);
         }
+        //FIXME if product already exists increase quantity only
         final OrderItem orderItem = OrderItem.create(product.get(), quantity);
         final Order modifiedOrder = order.addItem(orderItem);
         return OrderApiResult.success(orderRepository.save(modifiedOrder).toApi());

@@ -1,6 +1,14 @@
 ### Create order
 POST http://localhost:8080/orders
 
-###
-GET http://localhost:8080/orders/4aa5d55b-503d-4d87-bd55-9177a9d5ec8f
+### Get all orders
+GET http://localhost:8080/orders
 
+### Get order by id
+GET http://localhost:8080/orders/5bab9d07-6893-4fd6-8213-0a2b33f16a54
+
+### Add product
+PUT http://localhost:8080/orders/6ee43536-6c5c-47c4-bf8b-99d70447936e/items/TEST_PRODUCT_ID_1?quantity=10
+
+### Remove product
+DELETE http://localhost:8080/orders/6ee43536-6c5c-47c4-bf8b-99d70447936e/items/TEST_PRODUCT_ID_1

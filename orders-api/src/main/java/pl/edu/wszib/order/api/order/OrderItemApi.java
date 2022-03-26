@@ -1,18 +1,15 @@
 package pl.edu.wszib.order.api.order;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
 import lombok.Value;
 import pl.edu.wszib.order.api.product.ProductApi;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.Objects;
 
 @Value
 public class OrderItemApi {
-    @NotBlank
-    private final String productId;
 
     @NotNull
     private final ProductApi product;
@@ -26,7 +23,7 @@ public class OrderItemApi {
     private final BigDecimal amount;
 
     public boolean hasProductId(final String productId) {
-        return Objects.equals(this.productId, productId);
+        return Objects.equals(this.product.getId(), productId);
     }
 
 }

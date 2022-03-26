@@ -5,6 +5,7 @@ import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.application.order.OrderFacade;
 
+import java.util.Collection;
 import java.util.Optional;
 
 @RestController
@@ -29,10 +30,10 @@ public class OrderRestController {
         }
     }
 
-//    @GetMapping()
-//    public Optional<OrderApi> findAllOrder() { //TODO paginacja, sortowanie
-// TODO impl in facade first
-//    }
+    @GetMapping
+    public Collection<OrderApi> findAllOrder() { //TODO paginacja, sortowanie
+        return orderFacade.findAll();
+    }
 
     @PostMapping
     public OrderApi create() {
@@ -42,8 +43,9 @@ public class OrderRestController {
 
     @PutMapping("/{orderId}/items/{productId}")
     public Optional<OrderApi> addProduct(@PathVariable String orderId,
-                                         @PathVariable String productId) {
-        final OrderApiResult result = orderFacade.addItem(orderId, productId, 1);   //TODO quantity from body
+                                         @PathVariable String productId,
+                                         @RequestParam(defaultValue = "1") Integer quantity) {
+        final OrderApiResult result = orderFacade.addItem(orderId, productId, quantity);
         if (result.isSuccess()) {
             return Optional.of(result.getOrder());
         } else {    //TODO [ERROR_HANDLING]
@@ -61,6 +63,5 @@ public class OrderRestController {
             return Optional.empty();
         }
     }
-
 
 }

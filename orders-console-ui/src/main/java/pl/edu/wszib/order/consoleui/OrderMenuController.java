@@ -67,7 +67,7 @@ class OrderMenuController {
         final OrderApiResult result = orderFacade.findById(orderId);
         if (result.isSuccess()) {
             final OrderApi order = result.getOrder();
-            final String productId = view.getProduct(order.getProducts());
+            final String productId = view.getProduct(order.products());
             return orderFacade.removeItem(orderId, productId);
         }
         return result;

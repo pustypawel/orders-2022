@@ -31,7 +31,7 @@ public class OrderApi {
                 .anyMatch(item -> item.hasProductId(productId));
     }
 
-    public Set<ProductApi> getProducts() {
+    public Set<ProductApi> products() {
         return items.stream()
                 .map(OrderItemApi::getProduct)
                 .collect(Collectors.toSet());

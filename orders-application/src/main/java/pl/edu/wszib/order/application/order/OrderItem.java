@@ -38,7 +38,7 @@ public class OrderItem {
     }
 
     public OrderItemApi toApi() {
-        return new OrderItemApi(productId, productApi, quantity, amount);
+        return new OrderItemApi(productApi, quantity, amount);
     }
 }
 

@@ -1,0 +1,19 @@
+package pl.edu.wszib.order.infrastructure.configuration;
+
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.PropertyAccessor;
+import org.springframework.boot.autoconfigure.jackson.Jackson2ObjectMapperBuilderCustomizer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+
+//@Configuration
+public class JacksonConfiguration {
+
+//    @Bean
+//    public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
+//        return builder -> {
+//            builder.visibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
+//        }
+//    }
+}

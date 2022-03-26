@@ -64,11 +64,7 @@ paths:
       parameters:
         - $ref: "#/components/parameters/OrderIdParam"
         - $ref: "#/components/parameters/ProductIdParam"
-      requestBody:
-        content: 
-          application/json:
-            schema:
-              $ref: "#/components/schemas/OrderItemAdd"
+        - $ref: "#/components/parameters/QuantityParam"
       responses:
         200:
           $ref: "#/components/responses/OrderResponse"
@@ -112,6 +108,11 @@ components:
       name: orderId
       schema:
         $ref: "#/components/schemas/OrderId"
+    QuantityParam:
+      in: query
+      name: quantity
+      schema:
+        type: integer
   requestBodies:
     ProductRequest:
       description: Dane produktu.
@@ -214,11 +215,3 @@ components:
         - product
         - quantity
         - amount
-    OrderItemAdd:
-      properties:
-        quantity:
-          type: integer
-          minimum: 1
-          default: 1
-      required:
-        - quantity
