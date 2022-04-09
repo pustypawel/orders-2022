@@ -69,4 +69,16 @@ public class ProductRestTest {
         assertNotNull(response.getBody());
         assertTrue(response.getBody().length > 0);
     }
+
+    @Test
+    public void should_not_be_able_to_create_invalid_product() {
+        //given:
+        final ProductApi invalidProduct = ProductSamples.INVALID;
+
+        //when:
+        final ResponseEntity<ProductApi> response = restTemplate.postForEntity("/products", invalidProduct, ProductApi.class);
+
+        //then
+        assertTrue(response.getStatusCode().is4xxClientError());
+    }
 }
