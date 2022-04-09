@@ -1,19 +1,19 @@
 package pl.edu.wszib.order.infrastructure.rest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.wszib.order.api.ErrorApi;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
+import pl.edu.wszib.order.api.order.OrderError;
 import pl.edu.wszib.order.application.order.OrderFacade;
 
 import java.util.Collection;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
 public class OrderRestController {
-    //TODO [TASK] Impl:
-    // 1. RestController impl
-    // 2. rest-api-orders.http - example calls
     private final OrderFacade orderFacade;
 
     public OrderRestController(final OrderFacade orderFacade) {
@@ -21,13 +21,9 @@ public class OrderRestController {
     }
 
     @GetMapping("{orderId}")
-    public Optional<OrderApi> findOrderById(@PathVariable String orderId) {
+    public ResponseEntity<?> findOrderById(@PathVariable String orderId) {
         final OrderApiResult result = orderFacade.findById(orderId);
-        if (result.isSuccess()) {
-            return Optional.of(result.getOrder());
-        } else {    //TODO [ERROR_HANDLING]
-            return Optional.empty();
-        }
+        return handleResult(result);
     }
 
     @GetMapping
@@ -36,32 +32,42 @@ public class OrderRestController {
     }
 
     @PostMapping
-    public OrderApi create() {
-        return orderFacade.create() //TODO [ERROR_HANDLING]
-                .getOrder();
+    public ResponseEntity<?> create() {
+        final OrderApiResult result = orderFacade.create();
+        return handleResult(result);
     }
 
     @PutMapping("/{orderId}/items/{productId}")
-    public Optional<OrderApi> addProduct(@PathVariable String orderId,
-                                         @PathVariable String productId,
-                                         @RequestParam(defaultValue = "1") Integer quantity) {
+    public ResponseEntity<?> addProduct(@PathVariable String orderId,
+                                        @PathVariable String productId,
+                                        @RequestParam(defaultValue = "1") Integer quantity) {
         final OrderApiResult result = orderFacade.addItem(orderId, productId, quantity);
-        if (result.isSuccess()) {
-            return Optional.of(result.getOrder());
-        } else {    //TODO [ERROR_HANDLING]
-            return Optional.empty();
-        }
+        return handleResult(result);
     }
 
     @DeleteMapping("/{orderId}/items/{productId}")
-    public Optional<OrderApi> removeProduct(@PathVariable String orderId,
-                                            @PathVariable String productId) {
+    public ResponseEntity<?> removeProduct(@PathVariable String orderId,
+                                           @PathVariable String productId) {
         final OrderApiResult result = orderFacade.removeItem(orderId, productId);
+        return handleResult(result);
+    }
+
+    private ResponseEntity<?> handleResult(OrderApiResult result) {
         if (result.isSuccess()) {
-            return Optional.of(result.getOrder());
-        } else {    //TODO [ERROR_HANDLING]
-            return Optional.empty();
+            return ResponseEntity.ok(result.getOrder());
+        } else {
+            return handleError(result.getError());
         }
     }
 
+    private ResponseEntity<ErrorApi> handleError(final OrderError error) {
+        switch (error) {
+            case ORDER_NOT_FOUND:
+                return new ResponseEntity<>(new ErrorApi(error.name(), "Order with given id does not exist."), HttpStatus.NOT_FOUND);
+            case PRODUCT_NOT_FOUND:
+                return new ResponseEntity<>(new ErrorApi(error.name(), "Product with given id does not exist."), HttpStatus.UNPROCESSABLE_ENTITY);
+            default:
+                throw new IllegalStateException("Unexpected value: " + error);
+        }
+    }
 }
