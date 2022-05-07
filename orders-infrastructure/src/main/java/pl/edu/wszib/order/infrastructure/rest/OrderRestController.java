@@ -21,7 +21,7 @@ public class OrderRestController {
     }
 
     @GetMapping("{orderId}")
-    public ResponseEntity<?> findOrderById(@PathVariable String orderId) {
+    public ResponseEntity<?> findOrderById(final @PathVariable String orderId) {
         final OrderApiResult result = orderFacade.findById(orderId);
         return handleResult(result);
     }
@@ -38,21 +38,21 @@ public class OrderRestController {
     }
 
     @PutMapping("/{orderId}/items/{productId}")
-    public ResponseEntity<?> addProduct(@PathVariable String orderId,
-                                        @PathVariable String productId,
-                                        @RequestParam(defaultValue = "1") Integer quantity) {
+    public ResponseEntity<?> addProduct(final @PathVariable String orderId,
+                                        final @PathVariable String productId,
+                                        final @RequestParam(defaultValue = "1") Integer quantity) {
         final OrderApiResult result = orderFacade.addItem(orderId, productId, quantity);
         return handleResult(result);
     }
 
     @DeleteMapping("/{orderId}/items/{productId}")
-    public ResponseEntity<?> removeProduct(@PathVariable String orderId,
-                                           @PathVariable String productId) {
+    public ResponseEntity<?> removeProduct(final @PathVariable String orderId,
+                                           final @PathVariable String productId) {
         final OrderApiResult result = orderFacade.removeItem(orderId, productId);
         return handleResult(result);
     }
 
-    private ResponseEntity<?> handleResult(OrderApiResult result) {
+    private ResponseEntity<?> handleResult(final OrderApiResult result) {
         if (result.isSuccess()) {
             return ResponseEntity.ok(result.getOrder());
         } else {

@@ -10,3 +10,23 @@ https://redoc.ly/
 https://marketplace.visualstudio.com/items?itemName=Redocly.openapi-vs-code    
 https://editor.swagger.io/  
 https://redoc.ly/docs/cli/resources/built-in-rules/  
+
+## Next steps
+
+### 1. Properties
+
+- @ConfigurationProperties
+- @Value
+
+### 2. Database
+
+- H2
+- Spring JDBC
+- Spring Data JPA
+- TestContainers?
+
+## 3. Web
+
+- HTML + CSS
+- Ajax
+- VueJS?
