@@ -1,6 +1,6 @@
 server:
   port: 8080
-  address:
+
 
 my-config:
   asd: 10
@@ -13,3 +13,20 @@ orders:
       - id: 67b83ac9-ea8c-4a63-9738-6dbfd40443ed
         name: Test product 2
         price: 20.40
+spring:
+  h2:
+    console:
+      enabled: true
+      settings:
+        trace: true
+        web-admin-password: test
+  datasource:
+    url: jdbc:h2:file:./data/orders
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+  data:
+    jpa:
+      repositories:
+        bootstrap-mode: deferred
