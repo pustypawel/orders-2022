@@ -1,31 +1,25 @@
 package pl.edu.wszib.order.infrastructure.configuration;
 
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.product.InMemoryProductRepository;
 import pl.edu.wszib.order.application.product.ProductFacade;
 import pl.edu.wszib.order.application.product.ProductModule;
 import pl.edu.wszib.order.application.product.ProductRepository;
+import pl.edu.wszib.order.infrastructure.properties.ProductProperties;
 
 @Configuration
-@EnableConfigurationProperties({ProductProperties.class, NativeProductProperties.class})
+@EnableConfigurationProperties({ProductProperties.class})
 public class ProductConfiguration {
-    //TODO [PRODUCT] produkty definiowane w pliku konfiguracyjnym
     private final ProductProperties productProperties;
 
-    private final NativeProductProperties nativeProductProperties;
 
-    @Value("${my.prop}")
-    private String myProp;
-
-    public ProductConfiguration(final ProductProperties productProperties,
-                                final NativeProductProperties nativeProductProperties) {
+    public ProductConfiguration(final ProductProperties productProperties) {
         this.productProperties = productProperties;
-        this.nativeProductProperties = nativeProductProperties;
     }
 
     @Bean
@@ -36,9 +30,13 @@ public class ProductConfiguration {
     }
 
     @Bean
-    public InitializingBean initProducts() {
+    public InitializingBean initProducts(final ProductFacade productFacade) {
         return () -> {
-            // TODO initialize predefined products
+            productProperties.getInitials()
+                    .forEach(productFacade::create);
+//            for (ProductApi initialProduct : productProperties.getInitials()) {
+//                productFacade.create(initialProduct);
+//            }
         };
     }
 }

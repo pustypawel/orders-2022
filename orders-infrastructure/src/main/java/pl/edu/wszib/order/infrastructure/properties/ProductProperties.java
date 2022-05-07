@@ -1,22 +1,26 @@
-package pl.edu.wszib.order.infrastructure.configuration;
+package pl.edu.wszib.order.infrastructure.properties;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
+import pl.edu.wszib.order.api.product.ProductApi;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @ConfigurationProperties(prefix = "orders.products")
 @Validated
 public class ProductProperties {
     private Set<@Valid ProductInitialProperties> initials;
 
-    public Set<ProductInitialProperties> getInitials() {
-        return initials;
+    public Set<ProductApi> getInitials() {
+        return initials.stream()
+                .map(product -> new ProductApi(product.id, product.name, product.price))
+                .collect(Collectors.toSet());
     }
 
     public void setInitials(final Set<ProductInitialProperties> initials) {
