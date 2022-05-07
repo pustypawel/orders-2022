@@ -6,6 +6,14 @@ my-config:
   asd: 10
 orders:
   products:
+    native:
+      initials:
+        - id: fb069987-e8c8-40cb-8336-7d6a14d0f635
+          name: Test product 1
+          price: 10.20
+        - id: 67b83ac9-ea8c-4a63-9738-6dbfd40443ed
+          name: Test product 2
+          price: 20.40
     initials:
       - id: fb069987-e8c8-40cb-8336-7d6a14d0f635
         name: Test product 1

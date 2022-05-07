@@ -2,15 +2,18 @@ package pl.edu.wszib.order.infrastructure.configuration;
 
 import org.hibernate.validator.constraints.Length;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.util.Set;
 
 @ConfigurationProperties(prefix = "orders.products")
+@Validated
 public class ProductProperties {
-    private Set<ProductInitialProperties> initials;
+    private Set<@Valid ProductInitialProperties> initials;
 
     public Set<ProductInitialProperties> getInitials() {
         return initials;
@@ -59,5 +62,4 @@ public class ProductProperties {
             this.price = price;
         }
     }
-
 }
