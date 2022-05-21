@@ -15,37 +15,39 @@ public class OrderItem {
     private final Integer quantity;
     private final BigDecimal amount;
 
-    private OrderItem(final String productId,
-                      final ProductApi productApi,
+    private OrderItem(final ProductApi productApi,
                       final Integer quantity) {
-        this.productId = productId;
+        this.productId = productApi.getId();
         this.productApi = productApi;
         this.quantity = quantity;
         this.amount = calculateAmount();
     }
 
     private BigDecimal calculateAmount() {
-        return BigDecimal.valueOf(0);   //TODO Impl
+        return productApi.getPrice().multiply(BigDecimal.valueOf(quantity));
     }
 
     public static OrderItem create(final ProductApi productApi,
                                    final Integer quantity) {
-        return new OrderItem(productApi.getId(), productApi, quantity);
+        return new OrderItem(productApi, quantity);
+    }
+
+    public static OrderItem fromApi(final OrderItemApi item) {
+        return new OrderItem(
+                item.getProduct(),
+                item.getQuantity()
+        );
     }
 
     public boolean hasProductId(final String productId) {
         return this.productId.equals(productId);
     }
 
+    BigDecimal amount() {
+        return amount;
+    }
+
     public OrderItemApi toApi() {
         return new OrderItemApi(productApi, quantity, amount);
     }
 }
-
-/*
-#TODO Przygotować API dla zamówień:
-  # create order (POST)
-  # find order (GET)
-  # add item (POST /orders/{orderId}/items)
-  # remove item (DELETE /orders/{orderId}/items/{productId})
- */

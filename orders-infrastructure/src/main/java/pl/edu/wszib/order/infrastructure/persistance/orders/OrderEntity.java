@@ -1,6 +1,8 @@
 package pl.edu.wszib.order.infrastructure.persistance.orders;
 
+import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderState;
+import pl.edu.wszib.order.application.product.ProductFacade;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -15,6 +17,7 @@ public class OrderEntity {
     private String id;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private OrderState state;
 
     @Column(nullable = false)
@@ -27,13 +30,31 @@ public class OrderEntity {
         // for Hibernate
     }
 
-    public OrderEntity(String id,
-                       OrderState state,
-                       BigDecimal amount,
-                       Set<OrderItemEntity> items) {
+    OrderEntity(final String id,
+                final OrderState state,
+                final BigDecimal amount,
+                final Set<OrderItemEntity> items) {
         this.id = id;
         this.state = state;
         this.amount = amount;
         this.items = items;
+        this.items.forEach(item -> item.setOrder(this));
+    }
+
+    public static OrderEntity from(final OrderApi orderApi) {
+        return new OrderEntity(
+                orderApi.getId(),
+                orderApi.getState(),
+                orderApi.getAmount(),
+                OrderItemEntity.fromAll(orderApi.getItems())
+        );
+    }
+
+    public OrderApi toApi(final ProductFacade productFacade) {
+        return new OrderApi(id, state, OrderItemEntity.toApi(productFacade, items), amount);
+    }
+
+    public String getId() {
+        return id;
     }
 }

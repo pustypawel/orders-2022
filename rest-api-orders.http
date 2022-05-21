@@ -5,10 +5,13 @@ POST http://localhost:8080/orders
 GET http://localhost:8080/orders
 
 ### Get order by id
-GET http://localhost:8080/orders/5bab9d07-6893-4fd6-8213-0a2b33f16a54
+GET http://localhost:8080/orders/e05d783c-4051-4052-b0e6-f42fd32c38cf
 
-### Add product
-PUT http://localhost:8080/orders/6ee43536-6c5c-47c4-bf8b-99d70447936e/items/TEST_PRODUCT_ID_1?quantity=10
+### Add product #1
+PUT http://localhost:8080/orders/e05d783c-4051-4052-b0e6-f42fd32c38cf/items/fb069987-e8c8-40cb-8336-7d6a14d0f635?quantity=10
+
+### Add product #2
+PUT http://localhost:8080/orders/e05d783c-4051-4052-b0e6-f42fd32c38cf/items/67b83ac9-ea8c-4a63-9738-6dbfd40443ed
 
 ### Remove product
 DELETE http://localhost:8080/orders/6ee43536-6c5c-47c4-bf8b-99d70447936e/items/TEST_PRODUCT_ID_1
