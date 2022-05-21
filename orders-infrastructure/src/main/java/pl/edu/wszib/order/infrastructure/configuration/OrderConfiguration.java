@@ -3,6 +3,7 @@ package pl.edu.wszib.order.infrastructure.configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import org.springframework.context.annotation.Profile;
 import pl.edu.wszib.order.application.order.InMemoryOrderRepository;
 import pl.edu.wszib.order.application.order.OrderFacade;
 import pl.edu.wszib.order.application.order.OrderModule;
@@ -14,19 +15,27 @@ import pl.edu.wszib.order.infrastructure.persistance.orders.SpringDataJpaOrderRe
 @Configuration
 public class OrderConfiguration {
     private final ProductFacade productFacade;
-    private final OrderDao orderDao;
 
-    public OrderConfiguration(final ProductFacade productFacade,
-                              final OrderDao orderDao) {
+    public OrderConfiguration(final ProductFacade productFacade) {
         this.productFacade = productFacade;
-        this.orderDao = orderDao;
     }
 
     @Bean
-    public OrderFacade orderFacade() {
-//        final OrderRepository orderRepository = new InMemoryOrderRepository();
-        return new OrderModule(new SpringDataJpaOrderRepository(orderDao, productFacade), productFacade)
+    public OrderFacade orderFacade(final OrderRepository orderRepository) {
+        return new OrderModule(orderRepository, productFacade)
                 .getFacade();
+    }
+
+    @Bean
+    @Profile("inmemory")
+    public OrderRepository inMemoryOrderRepository() {
+        return new InMemoryOrderRepository();
+    }
+
+    @Bean
+    @Profile("!inmemory")
+    public OrderRepository databaseOrderRepository(final OrderDao orderDao) {
+        return new SpringDataJpaOrderRepository(orderDao, productFacade);
     }
 
     @Bean
