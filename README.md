@@ -27,6 +27,8 @@ https://redoc.ly/docs/cli/resources/built-in-rules/
 
 #### 2.1 Database design/schema
 
+See: https://www.techferry.com/articles/hibernate-jpa-annotations.html
+
 Tables: orders, order_items
 
 orders:
