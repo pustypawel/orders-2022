@@ -1,5 +1,6 @@
 package pl.edu.wszib.order.infrastructure.rest;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,8 +28,11 @@ public class OrderRestController {
     }
 
     @GetMapping
-    public Collection<OrderApi> findAllOrder() { //TODO paginacja, sortowanie
-        return orderFacade.findAll();
+    public Collection<OrderApi> findAll(
+            final @RequestParam("page") Integer page,
+            final @RequestParam("size") Integer size,
+            final @RequestParam("sort") String sort) {
+        return orderFacade.findAll(page, size, sort);
     }
 
     @PostMapping

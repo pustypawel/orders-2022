@@ -2,7 +2,7 @@
 POST http://localhost:8080/orders
 
 ### Get all orders
-GET http://localhost:8080/orders
+GET http://localhost:8080/orders?size=9&page=0&sort=id,asc
 
 ### Get order by id
 GET http://localhost:8080/orders/e05d783c-4051-4052-b0e6-f42fd32c38cf

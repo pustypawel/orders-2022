@@ -13,5 +13,5 @@ public interface OrderRepository {
 
     Order save(Order order);
 
-    Collection<Order> findAll();
+    Collection<Order> findAll(Integer page, Integer size, String sort);
 }

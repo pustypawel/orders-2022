@@ -36,8 +36,10 @@ public class OrderFacade {
         return findById(OrderId.of(id));
     }
 
-    public Collection<OrderApi> findAll() {
-        return orderRepository.findAll()
+    public Collection<OrderApi> findAll(final Integer page,
+                                        final Integer size,
+                                        final String sort) {
+        return orderRepository.findAll(page, size, sort)
                 .stream()
                 .map(Order::toApi)
                 .collect(Collectors.toSet());
