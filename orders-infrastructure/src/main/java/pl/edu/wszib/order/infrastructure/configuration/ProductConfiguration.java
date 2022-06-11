@@ -22,6 +22,7 @@ public class ProductConfiguration {
         this.productProperties = productProperties;
     }
 
+    // TODO [TASK] support inmemory profile also here
     @Bean
     public ProductFacade productFacade() {
         final ProductRepository productRepository = new InMemoryProductRepository();
