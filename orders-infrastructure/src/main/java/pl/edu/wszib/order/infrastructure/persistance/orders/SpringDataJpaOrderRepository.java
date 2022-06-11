@@ -3,6 +3,7 @@ package pl.edu.wszib.order.infrastructure.persistance.orders;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
+import pl.edu.wszib.order.api.PageApi;
 import pl.edu.wszib.order.application.order.Order;
 import pl.edu.wszib.order.application.order.OrderId;
 import pl.edu.wszib.order.application.order.OrderRepository;
@@ -51,14 +52,11 @@ public class SpringDataJpaOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Collection<Order> findAll(final Integer page,
-                                     final Integer size,
-                                     final String sort) {
-        final String[] split = sort.split(",");
-        if (split.length != 2) {
-            throw new IllegalArgumentException("Sort pattern is {property,direction}");
-        }
-        final PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(split[1]), split[0]));
+    public Collection<Order> findAll(final PageApi pageApi) {
+        final Sort sort = Sort.by(pageApi.getSort().getSortingOrders().stream()
+                .map(sortingOrder -> new Sort.Order(Sort.Direction.fromString(sortingOrder.getDirection().name()), sortingOrder.getProperty()))
+                .collect(Collectors.toList()));
+        final PageRequest pageRequest = PageRequest.of(pageApi.getPage(), pageApi.getSize(), sort);
         return orderDao.findAll(pageRequest).stream()
                 .map(orderEntity -> orderEntity.toApi(productFacade))
                 .map(Order::fromApi)

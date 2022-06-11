@@ -2,6 +2,7 @@ package pl.edu.wszib.order.application.order;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import pl.edu.wszib.order.api.PageApi;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.api.order.OrderError;
@@ -36,10 +37,8 @@ public class OrderFacade {
         return findById(OrderId.of(id));
     }
 
-    public Collection<OrderApi> findAll(final Integer page,
-                                        final Integer size,
-                                        final String sort) {
-        return orderRepository.findAll(page, size, sort)
+    public Collection<OrderApi> findAll(final PageApi pageApi) {
+        return orderRepository.findAll(pageApi)
                 .stream()
                 .map(Order::toApi)
                 .collect(Collectors.toSet());
