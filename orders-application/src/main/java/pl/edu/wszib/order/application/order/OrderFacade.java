@@ -13,10 +13,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-
-//TODO Zajęcia 2:
-// AbstractTest
-// CI za pomocą Github actions
 @AllArgsConstructor(access = AccessLevel.PACKAGE)
 public class OrderFacade {
     private final OrderRepository orderRepository;
