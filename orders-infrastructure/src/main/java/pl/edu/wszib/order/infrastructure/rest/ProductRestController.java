@@ -21,10 +21,9 @@ public class ProductRestController {
         this.productFacade = productFacade;
     }
 
-    //TODO [PRODUCT] paginacja, zamiast required użyć default
+    //TODO [TASK] support paging and sorting
     @GetMapping
-    public Set<ProductApi> getAllProducts(final @RequestParam(required = false) Integer limit,
-                                          final @RequestParam(required = false) Integer size) {
+    public Set<ProductApi> getAllProducts() {
         return productFacade.findAll();
     }
 

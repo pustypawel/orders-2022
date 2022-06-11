@@ -6,7 +6,7 @@ import pl.edu.wszib.order.api.product.ProductApi;
 import java.math.BigDecimal;
 
 @Value
-class Product {
+public class Product {
     private final ProductId id;
 
     private final String name;
