@@ -10,6 +10,7 @@ import pl.edu.wszib.order.application.order.OrderRepository;
 import pl.edu.wszib.order.application.product.ProductFacade;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -52,7 +53,7 @@ public class SpringDataJpaOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Collection<Order> findAll(final PageApi pageApi) {
+    public List<Order> findAll(final PageApi pageApi) {
         final Sort sort = Sort.by(pageApi.getSort().getSortingOrders().stream()
                 .map(sortingOrder -> new Sort.Order(Sort.Direction.fromString(sortingOrder.getDirection().name()), sortingOrder.getProperty()))
                 .collect(Collectors.toList()));
@@ -60,6 +61,6 @@ public class SpringDataJpaOrderRepository implements OrderRepository {
         return orderDao.findAll(pageRequest).stream()
                 .map(orderEntity -> orderEntity.toApi(productFacade))
                 .map(Order::fromApi)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 }

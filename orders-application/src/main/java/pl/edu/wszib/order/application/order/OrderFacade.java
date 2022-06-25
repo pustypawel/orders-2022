@@ -10,6 +10,7 @@ import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.product.ProductFacade;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -37,11 +38,11 @@ public class OrderFacade {
         return findById(OrderId.of(id));
     }
 
-    public Collection<OrderApi> findAll(final PageApi pageApi) {
+    public List<OrderApi> findAll(final PageApi pageApi) {
         return orderRepository.findAll(pageApi)
                 .stream()
                 .map(Order::toApi)
-                .collect(Collectors.toSet());
+                .collect(Collectors.toList());
     }
 
     public OrderApiResult findById(final OrderId id) {

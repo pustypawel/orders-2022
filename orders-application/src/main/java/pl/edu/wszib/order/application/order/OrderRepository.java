@@ -3,6 +3,7 @@ package pl.edu.wszib.order.application.order;
 import pl.edu.wszib.order.api.PageApi;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 public interface OrderRepository {
@@ -15,5 +16,5 @@ public interface OrderRepository {
 
     Order save(Order order);
 
-    Collection<Order> findAll(PageApi pageApi);
+    List<Order> findAll(PageApi pageApi);
 }
