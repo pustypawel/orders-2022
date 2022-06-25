@@ -2,6 +2,7 @@ package pl.edu.wszib.order.application.product;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import pl.edu.wszib.order.api.PageApi;
 import pl.edu.wszib.order.api.product.ProductApi;
 
 import java.util.Optional;
@@ -27,8 +28,8 @@ public class ProductFacade {
                 .map(Product::toApi);
     }
 
-    public Set<ProductApi> findAll() {
-        return productRepository.findAll().stream()
+    public Set<ProductApi> search(final PageApi pageApi) {
+        return productRepository.findAll(pageApi).stream()
                 .map(Product::toApi)
                 .collect(Collectors.toSet());
     }

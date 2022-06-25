@@ -1,12 +1,15 @@
 package pl.edu.wszib.order.infrastructure.rest;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.wszib.order.api.ErrorApi;
+import pl.edu.wszib.order.api.PageApi;
 import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.api.product.ProductError;
 import pl.edu.wszib.order.application.product.ProductFacade;
+import pl.edu.wszib.order.infrastructure.utils.PageApiUtils;
 
 import javax.validation.Valid;
 import java.util.Set;
@@ -21,10 +24,10 @@ public class ProductRestController {
         this.productFacade = productFacade;
     }
 
-    //TODO [TASK] support paging and sorting
     @GetMapping
-    public Set<ProductApi> getAllProducts() {
-        return productFacade.findAll();
+    public Set<ProductApi> searchProducts(final Pageable pageable) {
+        final PageApi pageApi = PageApiUtils.fromPageable(pageable);
+        return productFacade.search(pageApi);
     }
 
     @GetMapping("/{productId}")

@@ -1,7 +1,6 @@
 package pl.edu.wszib.order.infrastructure.rest;
 
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,11 +10,9 @@ import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.api.order.OrderError;
 import pl.edu.wszib.order.application.order.OrderFacade;
+import pl.edu.wszib.order.infrastructure.utils.PageApiUtils;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
@@ -34,10 +31,7 @@ public class OrderRestController {
 
     @GetMapping
     public Collection<OrderApi> findAll(final Pageable pageable) {
-        final List<PageApi.SortingOrder> sortingOrders = pageable.getSort().get()
-                .map(sortingOrder -> new PageApi.SortingOrder(PageApi.Direction.valueOf(sortingOrder.getDirection().name()), sortingOrder.getProperty()))
-                .collect(Collectors.toList());
-        final PageApi pageApi = new PageApi(pageable.getPageNumber(), pageable.getPageSize(), new PageApi.Sort(sortingOrders));
+        final PageApi pageApi = PageApiUtils.fromPageable(pageable);
         return orderFacade.findAll(pageApi);
     }
 

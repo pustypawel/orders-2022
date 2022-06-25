@@ -1,6 +1,6 @@
 package pl.edu.wszib.order.application.product;
 
-import pl.edu.wszib.order.api.product.ProductApi;
+import pl.edu.wszib.order.api.PageApi;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public Set<Product> findAll() {
+    public Set<Product> findAll(PageApi pageApi) {
         return Set.copyOf(products.values());
     }
 

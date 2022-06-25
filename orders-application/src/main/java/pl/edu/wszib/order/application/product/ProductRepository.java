@@ -1,6 +1,6 @@
 package pl.edu.wszib.order.application.product;
 
-import pl.edu.wszib.order.api.product.ProductApi;
+import pl.edu.wszib.order.api.PageApi;
 
 import java.util.Optional;
 import java.util.Set;
@@ -10,5 +10,5 @@ public interface ProductRepository {
 
     Optional<Product> findById(ProductId id);
 
-    Set<Product> findAll();
+    Set<Product> findAll(PageApi pageApi);
 }

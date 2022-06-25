@@ -1,11 +1,13 @@
 package pl.edu.wszib.order.consoleui;
 
+import pl.edu.wszib.order.api.PageApi;
 import pl.edu.wszib.order.api.order.OrderApi;
 import pl.edu.wszib.order.api.order.OrderApiResult;
 import pl.edu.wszib.order.api.product.ProductApi;
 import pl.edu.wszib.order.application.order.OrderFacade;
 import pl.edu.wszib.order.application.product.ProductFacade;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -57,7 +59,12 @@ class OrderMenuController {
 
     private OrderApiResult addItem() {
         final String orderId = view.getOrderId();
-        final Set<ProductApi> products = productFacade.findAll();
+        final PageApi pageApi = new PageApi(
+                1,
+                10,
+                new PageApi.Sort(List.of(new PageApi.SortingOrder(PageApi.Direction.ASC, "id")))
+        );
+        final Set<ProductApi> products = productFacade.search(pageApi);
         final String productId = view.getProduct(products);
         return orderFacade.addItem(orderId, productId, 1);  //TODO pytanie o quantity
     }

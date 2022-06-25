@@ -1,5 +1,5 @@
 ### Get all product
-GET http://localhost:8080/products
+GET http://localhost:8080/products?size=1
 Accept: application/json
 
 ### Get product
