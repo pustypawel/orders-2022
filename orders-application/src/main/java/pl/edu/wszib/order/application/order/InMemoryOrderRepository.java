@@ -17,7 +17,8 @@ public class InMemoryOrderRepository implements OrderRepository {
     }
 
     @Override
-    public Collection<Order> findAll(PageApi pageApi) {
+    public Collection<Order> findAll(final PageApi pageApi) {
+        // TODO TASK: support inmemory paging and sorting
         return orders.values();
     }
 

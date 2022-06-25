@@ -22,7 +22,8 @@ public class InMemoryProductRepository implements ProductRepository {
     }
 
     @Override
-    public Set<Product> findAll(PageApi pageApi) {
+    public Set<Product> findAll(final PageApi pageApi) {
+        // TODO TASK: support inmemory paging and sorting
         return Set.copyOf(products.values());
     }
 
